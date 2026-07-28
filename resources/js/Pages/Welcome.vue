@@ -101,31 +101,7 @@ defineProps<{
                     </template>
                 </div>
 
-                <!-- App Preview Mockup Card -->
-                <div class="mt-16 mx-auto max-w-sm rounded-3xl border border-slate-800 bg-slate-900/90 p-4 shadow-2xl backdrop-blur-xl">
-                    <div class="relative aspect-[2/3] overflow-hidden rounded-2xl bg-slate-800">
-                        <img
-                            src="https://image.tmdb.org/t/p/w500/pB8OverwYvKG8MsTX2PfaKVyTKV.jpg"
-                            alt="Movie Poster Preview"
-                            class="h-full w-full object-cover"
-                        />
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-5 text-left text-white">
-                            <span class="inline-block rounded-full bg-amber-500/90 px-2.5 py-0.5 text-xs font-bold text-slate-950 mb-2">★ 8.4</span>
-                            <h3 class="text-xl font-bold">Fight Club</h3>
-                            <p class="text-xs text-slate-300 line-clamp-2 mt-1">An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.</p>
-                        </div>
-                    </div>
 
-                    <div class="mt-4 flex justify-center gap-6 pb-2">
-                        <div class="flex h-14 w-14 items-center justify-center rounded-full border border-rose-900/60 bg-slate-950 text-rose-400 shadow-md">
-                            ✕
-                        </div>
-                        <div class="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg shadow-emerald-500/30">
-                            ✓
-                        </div>
-                    </div>
-                </div>
             </main>
         </div>
     </div>
