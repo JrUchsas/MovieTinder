@@ -70,24 +70,7 @@ const getImageUrl = (path: string | null) => {
     return `https://image.tmdb.org/t/p/w500${path}`;
 };
 
-const isMovieReleased = (dateString?: string | null) => {
-    if (!dateString) return false;
-    const releaseDate = new Date(dateString);
-    if (isNaN(releaseDate.getTime())) return false;
-    const today = new Date();
-    return releaseDate <= today;
-};
 
-const formatFullReleaseDate = (dateString?: string | null) => {
-    if (!dateString) return 'Unknown Date';
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return dateString;
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-    });
-};
 
 const swipeBadge = computed(() => {
     if (animState.value === 'like' || (isDragging.value && cardTransform.value.x > 40)) {
@@ -335,19 +318,7 @@ onUnmounted(() => {
                                 ★ {{ currentMovie.vote_average.toFixed(1) }}
                             </span>
 
-                            <!-- Release Status Tick Badge -->
-                            <span
-                                v-if="currentMovie.release_date"
-                                class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-extrabold text-white backdrop-blur-md shadow-md"
-                                :class="isMovieReleased(currentMovie.release_date) ? 'bg-emerald-600/90' : 'bg-amber-600/90'"
-                            >
-                                <template v-if="isMovieReleased(currentMovie.release_date)">
-                                    ✅ Released ({{ formatFullReleaseDate(currentMovie.release_date) }})
-                                </template>
-                                <template v-else>
-                                    ⏳ Upcoming ({{ formatFullReleaseDate(currentMovie.release_date) }})
-                                </template>
-                            </span>
+
                         </div>
                         <h2 class="text-2xl font-bold leading-tight drop-shadow-md">
                             {{ currentMovie.title }}

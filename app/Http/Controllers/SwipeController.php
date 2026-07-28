@@ -23,7 +23,6 @@ class SwipeController extends Controller
     {
         $genres = [
             ['id' => null, 'name' => 'All Categories'],
-            ['id' => 'upcoming', 'name' => 'Upcoming Movies ⏳'],
             ['id' => 'recommended', 'name' => 'Recommended For You 🪄'],
             ['id' => 28, 'name' => 'Action'],
             ['id' => 12, 'name' => 'Adventure'],
