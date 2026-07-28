@@ -1,0 +1,20 @@
+{
+    "agents": [
+        "antigravity",
+        "codex",
+        "copilot",
+        "opencode"
+    ],
+    "cloud": true,
+    "guidelines": true,
+    "mcp": true,
+    "nightwatch": false,
+    "sail": false,
+    "skills": [
+        "laravel-best-practices",
+        "pest-testing",
+        "inertia-vue-development",
+        "tailwindcss-development",
+        "deploying-laravel-cloud"
+    ]
+}
