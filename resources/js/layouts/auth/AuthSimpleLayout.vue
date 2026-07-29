@@ -13,11 +13,11 @@ defineProps<{
         <div class="w-full max-w-sm">
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center gap-4">
-                    <Link :href="route('home')" class="flex flex-col items-center gap-2 font-medium">
-                        <div class="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                            <AppLogoIcon class="size-9 fill-current text-[var(--foreground)] dark:text-white" />
+                    <Link :href="route('home')" class="flex items-center gap-2.5 font-extrabold text-xl tracking-tight text-slate-900 dark:text-white">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-rose-500 text-white shadow-md">
+                            <span class="text-xl">🎬</span>
                         </div>
-                        <span class="sr-only">{{ title }}</span>
+                        <span>MovieTinder</span>
                     </Link>
                     <div class="space-y-2 text-center">
                         <h1 class="text-xl font-medium">{{ title }}</h1>

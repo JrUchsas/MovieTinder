@@ -80,23 +80,17 @@ const getImageUrl = (path: string | null, size: string = 'w500') => {
 };
 
 const formatFullReleaseDate = (dateString?: string | null) => {
-    if (!dateString) return 'Unknown Release Date';
+    if (!dateString) return null;
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return dateString;
     return date.toLocaleDateString('en-US', {
         year: 'numeric',
-        month: 'long',
+        month: 'short',
         day: 'numeric',
     });
 };
 
-const isMovieReleased = (dateString?: string | null) => {
-    if (!dateString) return false;
-    const releaseDate = new Date(dateString);
-    if (isNaN(releaseDate.getTime())) return false;
-    const today = new Date();
-    return releaseDate <= today;
-};
+
 
 const formatScheduledDate = (isoString?: string | null) => {
     if (!isoString) return null;
@@ -269,7 +263,7 @@ const deleteMovie = (movieId: number) => {
                 <div>
                     <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white">My Movie Watchlist</h1>
                     <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                        Movies you've swiped right on • Click any movie tile to view details, release status, trailers, and stream options
+                        Movies you've swiped right on • Click any movie tile to view details, trailers, and stream options
                     </p>
                 </div>
                 <Link
@@ -343,15 +337,7 @@ const deleteMovie = (movieId: number) => {
                             </span>
                         </div>
 
-                        <!-- Release Status Badge (Released vs Upcoming) -->
-                        <div v-else-if="movie.release_date" class="absolute top-2 left-2 z-10">
-                            <span
-                                class="inline-flex items-center gap-1 rounded-lg px-2 py-0.5 text-[10px] font-extrabold text-white shadow-md backdrop-blur-md"
-                                :class="isMovieReleased(movie.release_date) ? 'bg-emerald-600/90' : 'bg-amber-600/90'"
-                            >
-                                {{ isMovieReleased(movie.release_date) ? '✅ Released' : '⏳ Upcoming' }}
-                            </span>
-                        </div>
+
 
                         <!-- Scheduled Date Badge -->
                         <div v-if="movie.watch_scheduled_at" class="absolute top-8 left-2 right-2 z-10">
@@ -401,10 +387,10 @@ const deleteMovie = (movieId: number) => {
                             <h3 class="line-clamp-2 text-sm font-bold text-slate-900 group-hover:text-indigo-600 dark:text-slate-100 dark:group-hover:text-indigo-400">
                                 {{ movie.title }}
                             </h3>
-                            <p class="mt-1 text-[11px] font-semibold flex items-center gap-1" :class="isMovieReleased(movie.release_date) ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'">
-                                <span>{{ isMovieReleased(movie.release_date) ? 'Released:' : 'Upcoming:' }}</span>
-                                <span>{{ formatFullReleaseDate(movie.release_date) }}</span>
+                            <p v-if="movie.release_date" class="mt-1 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                                Released: {{ formatFullReleaseDate(movie.release_date) }}
                             </p>
+
                         </div>
                         <div v-if="movie.is_watched" class="mt-2 text-[11px] font-extrabold text-amber-500 flex items-center gap-1">
                             <span>Your Rating:</span>
@@ -471,18 +457,10 @@ const deleteMovie = (movieId: number) => {
                                     ★ {{ selectedMovie.vote_average.toFixed(1) }}
                                 </span>
 
-                                <!-- Clear Release Status Badge -->
-                                <span
-                                    v-if="selectedMovie.release_date"
-                                    class="text-xs font-bold px-2.5 py-0.5 rounded-full border shadow-sm"
-                                    :class="isMovieReleased(selectedMovie.release_date) ? 'bg-emerald-950/90 text-emerald-300 border-emerald-700' : 'bg-amber-950/90 text-amber-300 border-amber-700'"
-                                >
-                                    <template v-if="isMovieReleased(selectedMovie.release_date)">
-                                        ✅ Released: {{ formatFullReleaseDate(selectedMovie.release_date) }}
-                                    </template>
-                                    <template v-else>
-                                        ⏳ Upcoming: {{ formatFullReleaseDate(selectedMovie.release_date) }}
-                                    </template>
+
+
+                                <span v-if="selectedMovie.release_date" class="text-xs font-semibold text-slate-300 bg-slate-800/80 px-2.5 py-0.5 rounded-full border border-slate-700">
+                                    📅 Release Date: {{ formatFullReleaseDate(selectedMovie.release_date) }}
                                 </span>
 
                                 <span v-if="selectedMovie.runtime" class="text-xs font-semibold text-slate-400 bg-slate-800/80 px-2.5 py-0.5 rounded-full border border-slate-700">
@@ -522,25 +500,7 @@ const deleteMovie = (movieId: number) => {
                         </button>
                     </div>
 
-                    <!-- Release Status Banner inside Modal -->
-                    <div
-                        v-if="selectedMovie.release_date"
-                        class="rounded-2xl p-4 border flex items-center justify-between"
-                        :class="isMovieReleased(selectedMovie.release_date) ? 'bg-emerald-950/30 border-emerald-900/60' : 'bg-amber-950/30 border-amber-900/60'"
-                    >
-                        <div>
-                            <p class="text-xs font-bold uppercase tracking-wider" :class="isMovieReleased(selectedMovie.release_date) ? 'text-emerald-400' : 'text-amber-400'">
-                                {{ isMovieReleased(selectedMovie.release_date) ? 'Movie is Officially Released' : 'Upcoming Movie Release' }}
-                            </p>
-                            <p class="text-sm font-semibold text-white mt-0.5">
-                                {{ isMovieReleased(selectedMovie.release_date) ? 'Released on ' : 'Scheduled Release on ' }}
-                                <strong>{{ formatFullReleaseDate(selectedMovie.release_date) }}</strong>
-                            </p>
-                        </div>
-                        <span class="text-2xl">
-                            {{ isMovieReleased(selectedMovie.release_date) ? '🎬' : '⏳' }}
-                        </span>
-                    </div>
+
 
                     <!-- User Review Box (If Watched) -->
                     <div v-if="selectedMovie.is_watched && (selectedMovie.user_rating || selectedMovie.user_review)" class="rounded-2xl border border-emerald-900/60 bg-emerald-950/30 p-4 space-y-1.5">
@@ -553,24 +513,7 @@ const deleteMovie = (movieId: number) => {
                         </p>
                     </div>
 
-                    <!-- Where to Stream (Watch Providers in BD) -->
-                    <div v-if="selectedMovie.providers && selectedMovie.providers.length > 0" class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
-                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Where to Stream (in Bangladesh 🇧🇩)</h4>
-                        <div class="flex flex-wrap items-center gap-3">
-                            <div
-                                v-for="provider in selectedMovie.providers"
-                                :key="provider.name"
-                                class="flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-1.5 border border-slate-800"
-                            >
-                                <img
-                                    :src="provider.logo || 'https://via.placeholder.com/92'"
-                                    :alt="provider.name"
-                                    class="h-6 w-6 rounded-md object-cover"
-                                />
-                                <span class="text-xs font-semibold text-slate-200">{{ provider.name }}</span>
-                            </div>
-                        </div>
-                    </div>
+
 
                     <!-- Genres -->
                     <div v-if="selectedMovie.genres && selectedMovie.genres.length > 0">
@@ -617,6 +560,25 @@ const deleteMovie = (movieId: number) => {
                         >
                             {{ selectedMovie.watch_scheduled_at ? 'Edit Time ✏️' : 'Set Time 📅' }}
                         </button>
+                    </div>
+
+                    <!-- Where to Stream -->
+                    <div v-if="selectedMovie.providers && selectedMovie.providers.length > 0" class="rounded-2xl border border-slate-800 bg-slate-950/60 p-4">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Where to Stream</h4>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <div
+                                v-for="provider in selectedMovie.providers"
+                                :key="provider.name"
+                                class="flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-1.5 border border-slate-800"
+                            >
+                                <img
+                                    :src="provider.logo || 'https://via.placeholder.com/92'"
+                                    :alt="provider.name"
+                                    class="h-6 w-6 rounded-md object-cover"
+                                />
+                                <span class="text-xs font-semibold text-slate-200">{{ provider.name }}</span>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Nearby Theatres & Movie Tickets Section -->
